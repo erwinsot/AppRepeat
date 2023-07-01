@@ -78,6 +78,7 @@ Cartas(BuildContext context, List<CheckWordsData> datos) {
                         else{
                         Map<String, String> payload={datos[index].word:datos[index].answer};
                         String image=getImagesNoti();
+                        //NotificationService.showNotification(title: "xx", body: "fdfd",payload: payload);
                         NotificationService.createRepeatNotification(payload, datos[index].word, image,globals.minutos.inSeconds);
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                               backgroundColor: Colors.pinkAccent,

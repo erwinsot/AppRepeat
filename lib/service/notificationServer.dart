@@ -125,18 +125,21 @@ class NotificationService {
 
   }
 
-  static Future <void>createRepeatNotification(final Map<String,String>? payload,final String word,final String image, int seconds)async{
+  static Future <void>createRepeatNotification(final Map<String,String> payload,final String word,final String image, int seconds)async{
   String localTimeZone = await AwesomeNotifications().getLocalTimeZoneIdentifier();
   String utcTimeZone = await AwesomeNotifications().getLocalTimeZoneIdentifier();
   await AwesomeNotifications().createNotification(
       content: NotificationContent(
           id: -1,
           channelKey: 'high_importance_channel',
-          title: '${Emojis.money_money_bag+Emojis.plant_cactus} every minute',
-          body:'your word is $word',
+          title: '${Emojis.animals_bear}Time to Study${Emojis.animals_bear}',
+          body:'Do you remember what this is? !$word!  ${Emojis.animals_fox} ', 
           payload: payload,
-          notificationLayout: NotificationLayout.BigText,
+          summary: "Study Time",
+          notificationLayout: NotificationLayout.BigPicture,
+          largeIcon: image,
           bigPicture: image),
+          
           schedule: NotificationInterval(interval: seconds, timeZone: localTimeZone, repeats: true),
           actionButtons: [
             NotificationActionButton(

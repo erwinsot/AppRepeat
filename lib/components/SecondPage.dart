@@ -1,5 +1,6 @@
 import 'package:apprepeat/components/TopBar.dart';
 import 'package:apprepeat/main.dart';
+import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 
 class SecondPage extends StatelessWidget {
@@ -24,9 +25,30 @@ class SecondPage extends StatelessWidget {
             children: [
               const TopBar(title: 'Second Screen'),
               const Spacer(),
-              Text( payload.values.first),
-               const SizedBox(height: 50,),
-              Text( payload.values.elementAt(1)),
+              FlipCard(
+                   front:Container(
+                                  decoration: BoxDecoration(
+                                   gradient: LinearGradient(
+                                  colors: [
+                                  Theme.of(context).primaryColor,
+                                 Colors.grey[200]!,
+                        ],
+                      )),
+                    color: Color.fromARGB(255, 100, 236, 236),child: Center(child: Text(payload.keys.first,
+                       style: TextStyle(fontStyle: FontStyle.normal,fontSize: 20)),)) ,
+                   back: Container(color: Color.fromARGB(255, 144, 57, 202),
+                   decoration: BoxDecoration(
+            gradient: LinearGradient(
+          colors: [
+            Theme.of(context).primaryColor,
+            Colors.grey[200]!,
+          ],
+        )),
+                    child: Center(child:Text(payload.values.first,
+                     style: TextStyle(fontStyle: FontStyle.normal,fontSize: 20),) ,),),
+                 ),
+              
+                       
               const Center(
                 child: Text("Navigated from notification"),
               ),
