@@ -21,6 +21,23 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final ButtonStyle style =
       ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
+
+  @override
+  void initState()async{
+    super.initState();
+    await  block.findCheckWords();
+
+  }
+
+  @override
+  void didChangeDependencies() async {
+    super.didChangeDependencies();
+    await block.init();
+    
+   }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,27 +50,32 @@ class _HomePageState extends State<HomePage> {
           // the App.build method, and use it to set our appbar title.
           title: Text(widget.title),
         ),
-        body: Center(
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+          colors: [
+            Theme.of(context).primaryColor,
+            Colors.grey[200]!,
+          ],
+        )),          
           child: StreamBuilder<List<CheckWordsData>>(
             stream: block.chekWodsStream,
             builder: (context, AsyncSnapshot<List<CheckWordsData>> snapshot) {
               if (snapshot.data == null || snapshot.data!.isEmpty) {
-                return Container(
-                  child: Center(
-                      child: MaterialButton(
-                    elevation: 15,
-                    minWidth: 100,
-                    height: 40,
-                    onPressed: () {
-                      AddWord(context);
-                    },
-                    color: Colors.deepOrange,
-                    child: const Text(
-                      "Add Topic",
-                      style: TextStyle(color: Colors.black),
-                    ),
-                  )),
-                );
+                return Center(
+                    child: MaterialButton(
+                  elevation: 15,
+                  minWidth: 100,
+                  height: 40,
+                  onPressed: () {
+                    AddWord(context);
+                  },
+                  color: Colors.deepOrange,
+                  child: const Text(
+                    "Add Topic",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ));
               } else {
                 return Column(
                   children: [
