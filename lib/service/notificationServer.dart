@@ -43,7 +43,7 @@ class NotificationService {
     
   }
 
-  static Future<void> onActionReceivedMethod(
+  /* static Future<void> onActionReceivedMethod(
       ReceivedAction receivedAction) async {
          debugPrint('onNotificationCreatedMethod');
           final payload = receivedAction.payload ?? {};
@@ -52,6 +52,21 @@ class NotificationService {
               MaterialPageRoute(builder: (_)=>const SecondPage())
             );
            }
+      } */
+      static Future<void> onActionReceivedMethod(
+      ReceivedAction receivedAction) async {
+        final payload=receivedAction.payload??{} ;
+        Map<String, String> nonNullableMap = {};
+        payload.forEach((key, value) {
+        if (value != null) {
+        nonNullableMap[key] = value;
+        }
+      });       
+        
+          MyApp.navigatorKey.currentState?.push(MaterialPageRoute(builder: (_)=>
+          SecondPage(payload: nonNullableMap)));
+        
+        
       }
 
   static Future<void> onNotificationCreateMethod(
@@ -110,7 +125,7 @@ class NotificationService {
 
   }
 
-  static Future <void>createRepeatNotification(final Map<String,String>? payload,)async{
+  static Future <void>createRepeatNotification(final Map<String,String>? payload,final String word,final String image, int seconds)async{
   String localTimeZone = await AwesomeNotifications().getLocalTimeZoneIdentifier();
   String utcTimeZone = await AwesomeNotifications().getLocalTimeZoneIdentifier();
   await AwesomeNotifications().createNotification(
@@ -118,15 +133,20 @@ class NotificationService {
           id: -1,
           channelKey: 'high_importance_channel',
           title: '${Emojis.money_money_bag+Emojis.plant_cactus} every minute',
-          body:'Tu palabra a recordar es ',
+          body:'your word is $word',
           payload: payload,
           notificationLayout: NotificationLayout.BigText,
-          bigPicture: 'asset://assets/images/melted-clock.png'),
-          schedule: NotificationInterval(interval: 60, timeZone: localTimeZone, repeats: true),
+          bigPicture: image),
+          schedule: NotificationInterval(interval: seconds, timeZone: localTimeZone, repeats: true),
           actionButtons: [
             NotificationActionButton(
                 key: "View", label: "View answer")
           ]
   );
 }
+
+ static Future <void> cancellshueNotification()async{
+  await AwesomeNotifications().cancelAllSchedules();
+}
+
 }

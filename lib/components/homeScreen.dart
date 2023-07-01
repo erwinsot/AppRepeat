@@ -112,7 +112,7 @@ class HomeScreen extends StatelessWidget {
             ),
             NotificationButton(
               onPressed: ()async{
-                await NotificationService.createRepeatNotification({"hola":"mongol"});
+                await NotificationService.createRepeatNotification({"hola":"mongol",},"dfsd","null",60);
               }, text: "schedueld")
           ],
         ),

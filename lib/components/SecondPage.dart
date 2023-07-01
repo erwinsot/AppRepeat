@@ -3,7 +3,8 @@ import 'package:apprepeat/main.dart';
 import 'package:flutter/material.dart';
 
 class SecondPage extends StatelessWidget {
-  const SecondPage({super.key});
+   final Map<String,String> payload;
+  const SecondPage({super.key, required this.payload});
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +24,9 @@ class SecondPage extends StatelessWidget {
             children: [
               const TopBar(title: 'Second Screen'),
               const Spacer(),
+              Text( payload.values.first),
+               const SizedBox(height: 50,),
+              Text( payload.values.elementAt(1)),
               const Center(
                 child: Text("Navigated from notification"),
               ),

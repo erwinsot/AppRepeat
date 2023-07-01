@@ -1,8 +1,13 @@
+import 'package:apprepeat/components/timer.dart';
 import 'package:apprepeat/controllers/patronBlock.dart';
 import 'package:apprepeat/models/models.dart';
+import 'package:apprepeat/service/notificationServer.dart';
+import 'package:apprepeat/utils/utils.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
+import 'package:apprepeat/utils/globals.dart' as globals;
+
 
 Cartas(BuildContext context, List<CheckWordsData> datos) {
   // "animation: false" does the trick
@@ -48,6 +53,50 @@ Cartas(BuildContext context, List<CheckWordsData> datos) {
                                 child: const Text("Cancel"))
                           ],
                         ));
+              },
+              onDoubleTap: (){
+                showDialog(
+                  context: context,
+                  builder: (_)=> AlertDialog(
+                    content: const Text("Create Notification?",textAlign: TextAlign.center,),
+                    alignment: Alignment.center,
+                    actions: [
+                      Container(
+                        alignment: Alignment.center,
+                        child: Row(mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                         OutlinedButton(onPressed: (){                        
+                        showTimerPicker(context);                                                
+                      }, child: const Text("Interval",textAlign: TextAlign.center,),),
+
+                      OutlinedButton(onPressed: (){
+                        if(globals.minutos.abs().inMinutes<1){
+                                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                              backgroundColor: Colors.pinkAccent,
+                                                  content: Text("Minimum interval 1 minutes")));
+                                      }
+                        else{
+                        Map<String, String> payload={datos[index].word:datos[index].answer};
+                        String image=getImagesNoti();
+                        NotificationService.createRepeatNotification(payload, datos[index].word, image,globals.minutos.inSeconds);
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                              backgroundColor: Colors.pinkAccent,
+                                              content: Text("Interval of ${globals.minutos.abs().inMinutes} minutes created")));
+                        Navigator.pop(context);
+                        }
+                        
+                         
+                      }, child: Text("Create",textAlign: TextAlign.center,),),
+
+                      OutlinedButton(onPressed: (){
+                         Navigator.pop(context);
+                      }, child: Text("Cancel"))
+
+                      ],),)
+                      
+                     
+                    ],
+                  ));
               },
               child: FlipCard(
                 front: Container(

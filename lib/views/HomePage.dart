@@ -3,6 +3,7 @@ import 'package:apprepeat/components/cardas.dart';
 import 'package:apprepeat/components/timer.dart';
 import 'package:apprepeat/controllers/patronBlock.dart';
 import 'package:apprepeat/models/models.dart';
+import 'package:apprepeat/service/notificationServer.dart';
 import 'package:flutter/material.dart';
 import 'package:workmanager/workmanager.dart';
 import 'package:apprepeat/utils/globals.dart' as globals;
@@ -23,9 +24,9 @@ class _HomePageState extends State<HomePage> {
       ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
 
   @override
-  void initState()async{
+  void initState(){
     super.initState();
-    await  block.findCheckWords();
+    
 
   }
 
@@ -33,6 +34,7 @@ class _HomePageState extends State<HomePage> {
   void didChangeDependencies() async {
     super.didChangeDependencies();
     await block.init();
+    await block.findCheckWords();
     
    }
 
@@ -102,130 +104,26 @@ class _HomePageState extends State<HomePage> {
                     ),
                     const SizedBox(
                       height: 60,
+                    ),                   
+                  Container(                    
+                    alignment: Alignment.center,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        ElevatedButton(
+                          style: style,
+                          onPressed: (){
+                             ScaffoldMessenger.of(this.context).showSnackBar(const SnackBar(
+                              content: Text("Notification Canceled")));
+                          NotificationService.cancellshueNotification();
+                            
+                          },
+                          child: const Text('Stop Notification'),
+                        ),
+                      ],
                     ),
-                    Container(
-                      alignment: Alignment.center,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          FloatingActionButton(
-                            heroTag: "btn7",
-                            onPressed: () async {
-                              showDialog(
-                                  context: context,
-                                  builder: (_) => AlertDialog(
-                                        content: const Text(
-                                          "interval minimum 15 minutes",
-                                          textAlign: TextAlign.center,
-                                        ),
-                                        alignment: Alignment.center,
-                                        actions: [
-                                          OutlinedButton(
-                                              onPressed: () {
-                                                showTimerPicker(context);
-                                              },
-                                              child: const Text("Interval")),
-                                          OutlinedButton(
-                                            onPressed: () {
-                                              if (globals.minutos
-                                                      .abs()
-                                                      .inMinutes <
-                                                  15) {
-                                                ScaffoldMessenger.of(
-                                                        this.context)
-                                                    .showSnackBar(const SnackBar(
-                                                        backgroundColor:
-                                                            Colors.pinkAccent,
-                                                        content: Text(
-                                                            "Minimum interval 15 minutes")));
-                                              } else {
-                                                List<String> array1 = [];
-                                                List<String> array2 = [];
-                                                snapshot.data
-                                                    ?.asMap()
-                                                    .forEach((key, value) {
-                                                  array2.add(value.answer);
-                                                  array1.add(value.word);
-                                                });
-                                                Workmanager()
-                                                    .registerPeriodicTask(
-                                                        "2",
-                                                        //This is the value that will be
-                                                        // returned in the callbackDispatcher
-                                                        "simplePeriodicTask",
-
-                                                        // When no frequency is provided
-                                                        // the default 15 minutes is set.
-                                                        // Minimum frequency is 15 min.
-                                                        // Android will automatically change
-                                                        // your frequency to 15 min
-                                                        // if you have configured a lower frequency.
-                                                        frequency: globals.minutos,
-                                                        inputData: {
-                                                      "num": array1.length,
-                                                      "arrays": array1,
-                                                      "array2": array2
-                                                    });
-
-                                                Navigator.pop(context);
-
-                                                ScaffoldMessenger.of(
-                                                        this.context)
-                                                    .showSnackBar(SnackBar(
-                                                        backgroundColor:
-                                                            Colors.pinkAccent,
-                                                        content: Text(
-                                                            "Interval of ${globals.minutos.abs().inMinutes} minutes created")));
-                                              }
-
-                                              // createRepeatNotification();
-                                              // NotificationApi.periodicalNotification(title: "perron",body: "este es una pruba");
-                                            },
-                                            child: const Text(
-                                              "Create",
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ),
-                                          OutlinedButton(
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
-                                            child: const Text(
-                                              "Cancel",
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          )
-                                        ],
-                                        buttonPadding: const EdgeInsets.all(15),
-                                        title: const Text(
-                                          "Created notification",
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ));
-                            },
-                            backgroundColor: Colors.teal,
-                            tooltip: 'Open Notification',
-                            child: const Icon(Icons.ad_units_outlined),
-                          ),
-                          const SizedBox(
-                            width: 150,
-                          ),
-                          FloatingActionButton(
-                              heroTag: "btn9",
-                              onPressed: () {
-                                ScaffoldMessenger.of(this.context).showSnackBar(
-                                    const SnackBar(
-                                        content:
-                                            Text("Notification Canceled")));
-                                cancellshueNotification();
-                                Workmanager().cancelByUniqueName("2");
-                              },
-                              tooltip: 'Open Notification',
-                              backgroundColor: Colors.deepPurpleAccent,
-                              child: const Icon(Icons.close))
-                        ],
-                      ),
-                    )
+                  ),
+                    
                   ],
                 );
               }
