@@ -12,9 +12,10 @@ void showTimerPicker(BuildContext context) {
             color: Colors.white,
             child: CupertinoTimerPicker(
               mode: CupertinoTimerPickerMode.hm,
-              initialTimerDuration: const Duration(hours: 0, minutes: 0),
+              initialTimerDuration: const Duration(hours: 0, minutes: 0, seconds: 0),
               onTimerDurationChanged: (value) {
                 globals.minutos = value;
+                
               },
             ));
       });

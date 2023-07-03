@@ -41,6 +41,11 @@ dependencies:
   card_swiper: ^2.0.4
   flip_card: ^0.7.0
   http: ^1.1.0
+  flutter_local_notifications: ^15.0.0
+  flutter_timezone: ^1.0.7
+  image: ^4.0.17
+  path_provider: ^2.0.15
+  device_info_plus: ^9.0.2
 
 dev_dependencies:
   flutter_test:

@@ -76,10 +76,11 @@ Cartas(BuildContext context, List<CheckWordsData> datos) {
                                                   content: Text("Minimum interval 1 minutes")));
                                       }
                         else{
+                        
                         Map<String, String> payload={datos[index].word:datos[index].answer};
                         String image=getImagesNoti();
                         //NotificationService.showNotification(title: "xx", body: "fdfd",payload: payload);
-                        NotificationService.createRepeatNotification(payload, datos[index].word, image,globals.minutos.inSeconds);
+                        NotificationService.createRepeatNotification(payload, datos[index].word, image,globals.minutos);
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                               backgroundColor: Colors.pinkAccent,
                                               content: Text("Interval of ${globals.minutos.abs().inMinutes} minutes created")));

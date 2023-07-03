@@ -25,28 +25,47 @@ class SecondPage extends StatelessWidget {
             children: [
               const TopBar(title: 'Second Screen'),
               const Spacer(),
-              FlipCard(
-                   front:Container(
-                                  decoration: BoxDecoration(
-                                   gradient: LinearGradient(
-                                  colors: [
-                                  Theme.of(context).primaryColor,
-                                 Colors.grey[200]!,
-                        ],
-                      )),
-                    color: Color.fromARGB(255, 100, 236, 236),child: Center(child: Text(payload.keys.first,
-                       style: TextStyle(fontStyle: FontStyle.normal,fontSize: 20)),)) ,
-                   back: Container(color: Color.fromARGB(255, 144, 57, 202),
-                   decoration: BoxDecoration(
-            gradient: LinearGradient(
-          colors: [
-            Theme.of(context).primaryColor,
-            Colors.grey[200]!,
-          ],
-        )),
-                    child: Center(child:Text(payload.values.first,
-                     style: TextStyle(fontStyle: FontStyle.normal,fontSize: 20),) ,),),
-                 ),
+              Card(
+      elevation: 0.0,
+      margin: EdgeInsets.only(left: 32.0, right: 32.0, top: 20.0, bottom: 0.0),
+      color: Color(0x00000000),
+      child: FlipCard(
+        direction: FlipDirection.HORIZONTAL,
+        side: CardSide.FRONT,
+        speed: 1000,
+        onFlipDone: (status) {
+          print(status);
+        },
+        front: Container(
+          decoration: BoxDecoration(
+            color: Color(0xFF006666),
+            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(payload.keys.first, style: Theme.of(context).textTheme.displayLarge),
+              Text('Click here to flip back',
+                  style: Theme.of(context).textTheme.bodyLarge),
+            ],
+          ),
+        ),
+        back: Container(
+          decoration: BoxDecoration(
+            color: Color(0xFF006666),
+            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(payload.values.first, style: Theme.of(context).textTheme.displayLarge),
+              Text('Click here to flip front',
+                  style: Theme.of(context).textTheme.bodyLarge),
+            ],
+          ),
+        ),
+      ),
+    ),
               
                        
               const Center(
